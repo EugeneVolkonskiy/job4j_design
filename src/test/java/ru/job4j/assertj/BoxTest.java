@@ -33,7 +33,7 @@ class BoxTest {
 
     @Test
     void whenVertexEqualsZero() {
-        Box box = new Box(0,15);
+        Box box = new Box(0, 15);
         int result = box.getNumberOfVertices();
         assertThat(result).isEqualTo(0)
                 .isLessThan(4)
@@ -42,7 +42,7 @@ class BoxTest {
 
     @Test
     void whenExist() {
-        Box box = new Box(4,12);
+        Box box = new Box(4, 12);
         boolean result = box.isExist();
         assertThat(result).isTrue()
                 .isEqualTo(true);
@@ -50,7 +50,7 @@ class BoxTest {
 
     @Test
     void whenNotExist() {
-        Box box = new Box(-2,12);
+        Box box = new Box(-2, 12);
         boolean result = box.isExist();
         assertThat(result).isFalse()
                 .isEqualTo(false);
@@ -58,7 +58,7 @@ class BoxTest {
 
     @Test
     void whenVertex4ThenArea62dot35() {
-        Box box = new Box(4,6);
+        Box box = new Box(4, 6);
         double result = box.getArea();
         assertThat(result).isEqualTo(62.35d,withPrecision(0.05d))
                 .isGreaterThan(51.5d);
@@ -66,7 +66,7 @@ class BoxTest {
 
     @Test
     void whenVertex5ThenArea0() {
-        Box box = new Box(5,6);
+        Box box = new Box(5, 6);
         double result = box.getArea();
         assertThat(result).isEqualTo(0.0d,withPrecision(0.01d))
                 .isLessThan(1d);
