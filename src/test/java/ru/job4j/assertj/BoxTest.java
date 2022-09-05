@@ -60,7 +60,7 @@ class BoxTest {
     void whenVertex4ThenArea62dot35() {
         Box box = new Box(4, 6);
         double result = box.getArea();
-        assertThat(result).isEqualTo(62.35d,withPrecision(0.05d))
+        assertThat(result).isEqualTo(62.35d, withPrecision(0.05d))
                 .isGreaterThan(51.5d);
     }
 
@@ -68,7 +68,7 @@ class BoxTest {
     void whenVertex5ThenArea0() {
         Box box = new Box(5, 6);
         double result = box.getArea();
-        assertThat(result).isEqualTo(0.0d,withPrecision(0.01d))
+        assertThat(result).isEqualTo(0.0d, withPrecision(0.01d))
                 .isLessThan(1d);
     }
 }
