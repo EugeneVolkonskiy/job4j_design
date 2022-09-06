@@ -14,7 +14,7 @@ class NameLoadTest {
     }
 
     @Test
-    void checkEmptyNames(){
+    void checkEmptyNames() {
         NameLoad nameLoad = new NameLoad();
         String[] names = new String[0];
         assertThatThrownBy(() -> nameLoad.parse(names))
@@ -22,7 +22,7 @@ class NameLoadTest {
     }
 
     @Test
-    void whenNotContainsEquals(){
+    void whenNotContainsEquals() {
         NameLoad nameLoad = new NameLoad();
         String[] names = {"1 = A", "2B"};
         assertThatThrownBy(() -> nameLoad.parse(names))
@@ -31,7 +31,7 @@ class NameLoadTest {
     }
 
     @Test
-    void whenStartsWithEquals(){
+    void whenStartsWithEquals() {
         NameLoad nameLoad = new NameLoad();
         String[] names = {"1 = A", "=2B"};
         assertThatThrownBy(() -> nameLoad.parse(names))
@@ -40,7 +40,7 @@ class NameLoadTest {
     }
 
     @Test
-    void whenOnlyEquals(){
+    void whenOnlyEquals() {
         NameLoad nameLoad = new NameLoad();
         String[] names = {"1 = A", "="};
         assertThatThrownBy(() -> nameLoad.parse(names))
