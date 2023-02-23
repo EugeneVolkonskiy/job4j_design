@@ -12,39 +12,37 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         this.container = (T[]) new Object[capacity];
     }
 
-    private T[] grow() {
+    private void grow() {
         if (container.length > 0) {
-           return Arrays.copyOf(container, container.length * 2);
+           container = Arrays.copyOf(container, container.length * 2);
         } else {
-            return Arrays.copyOf(container, 1);
+           container = Arrays.copyOf(container, 1);
         }
     }
 
     @Override
     public void add(T value) {
-        modCount++;
         if (size == container.length) {
-            container = grow();
+            grow();
         }
         container[size++] = value;
+        modCount++;
     }
 
     @Override
     public T set(int index, T newValue) {
-        Objects.checkIndex(index, size);
-        T oldValue = container[index];
+        T oldValue = get(index);
         container[index] = newValue;
         return oldValue;
     }
 
     @Override
     public T remove(int index) {
-        Objects.checkIndex(index, size);
-        modCount++;
-        T oldValue = container[index];
+        T oldValue = get(index);
         System.arraycopy(container, index + 1, container, index, container.length - index - 1);
         container[container.length - 1] = null;
         size--;
+        modCount++;
         return oldValue;
     }
 
@@ -75,9 +73,6 @@ public class SimpleArrayList<T> implements SimpleList<T> {
 
             @Override
             public T next() {
-                if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
-                }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
