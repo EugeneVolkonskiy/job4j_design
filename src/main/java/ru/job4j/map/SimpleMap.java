@@ -19,10 +19,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
         if (count >= capacity * LOAD_FACTOR) {
             expand();
         }
-        int i = key == null ? 0 : indexFor(hash(key.hashCode()));
-        boolean rsl = table[i] == null;
+        boolean rsl = table[findIndex(key)] == null;
         if (rsl) {
-            table[i] = new MapEntry<>(key, value);
+            table[findIndex(key)] = new MapEntry<>(key, value);
             count++;
             modCount++;
         }
@@ -37,13 +36,21 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return (capacity - 1) & hash;
     }
 
+    private int findIndex(K key) {
+        return key == null ? 0 : indexFor(hash(key.hashCode()));
+    }
+
+    private boolean isEqual(K key) {
+        return table[findIndex(key)] != null && Objects.hashCode(key) == Objects.hashCode(table[findIndex(key)].key)
+                && Objects.equals(key, table[findIndex(key)].key);
+    }
+
     private void expand() {
         capacity *= 2;
         MapEntry<K, V>[] newTable = new MapEntry[capacity];
         for (MapEntry<K, V> entry : table) {
             if (entry != null) {
-                int i = entry.key == null ? 0 : indexFor(hash(entry.key.hashCode()));
-                newTable[i] = entry;
+                newTable[findIndex(entry.key)] = entry;
             }
         }
         table = newTable;
@@ -51,22 +58,18 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-        int i = key == null ? 0 : indexFor(hash(key.hashCode()));
-        MapEntry<K, V> e = table[i];
         V rsl = null;
-        if (e != null && Objects.hashCode(key) == Objects.hashCode(e.key) && Objects.equals(key, e.key)) {
-            rsl = e.value;
+        if (isEqual(key)) {
+            rsl = table[findIndex(key)].value;
         }
         return rsl;
     }
 
     @Override
     public boolean remove(K key) {
-        int i = key == null ? 0 : indexFor(hash(key.hashCode()));
-        MapEntry<K, V> e = table[i];
         boolean rsl = false;
-        if (e != null && Objects.hashCode(key) == Objects.hashCode(e.key) && Objects.equals(key, e.key)) {
-            table[i] = null;
+        if (isEqual(key)) {
+            table[findIndex(key)] = null;
             rsl = true;
             count--;
             modCount++;
