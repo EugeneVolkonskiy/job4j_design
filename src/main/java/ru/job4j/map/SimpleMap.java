@@ -19,9 +19,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
         if (count >= capacity * LOAD_FACTOR) {
             expand();
         }
-        boolean rsl = table[findIndex(key)] == null;
+        int i = findIndex(key);
+        boolean rsl = table[i] == null;
         if (rsl) {
-            table[findIndex(key)] = new MapEntry<>(key, value);
+            table[i] = new MapEntry<>(key, value);
             count++;
             modCount++;
         }
@@ -41,8 +42,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private boolean isEqual(K key) {
-        return table[findIndex(key)] != null && Objects.hashCode(key) == Objects.hashCode(table[findIndex(key)].key)
-                && Objects.equals(key, table[findIndex(key)].key);
+        int i = findIndex(key);
+        return table[i] != null && Objects.hashCode(key) == Objects.hashCode(table[i].key)
+                && Objects.equals(key, table[i].key);
     }
 
     private void expand() {
@@ -59,8 +61,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public V get(K key) {
         V rsl = null;
+        int i = findIndex(key);
         if (isEqual(key)) {
-            rsl = table[findIndex(key)].value;
+            rsl = table[i].value;
         }
         return rsl;
     }
@@ -68,8 +71,9 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public boolean remove(K key) {
         boolean rsl = false;
+        int i = findIndex(key);
         if (isEqual(key)) {
-            table[findIndex(key)] = null;
+            table[i] = null;
             rsl = true;
             count--;
             modCount++;
