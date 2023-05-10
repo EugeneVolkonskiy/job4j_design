@@ -23,20 +23,16 @@ public class ArgsName {
 
     private void validate(String arg) {
         if (!arg.contains("=")) {
-            throw new IllegalArgumentException(String.format("Error: This argument '%s'"
-                    + " does not contain an equal sign", arg));
+            throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain an equal sign", arg));
         }
         if (!arg.startsWith("-")) {
-            throw new IllegalArgumentException(String.format("Error: This argument '%s' "
-                    + "does not start with a '-' character", arg));
+            throw new IllegalArgumentException(String.format("Error: This argument '%s' does not start with a '-' character", arg));
         }
         if (arg.startsWith("-=")) {
-            throw new IllegalArgumentException(String.format("Error: This argument '%s'"
-                    + " does not contain a key", arg));
+            throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain a key", arg));
         }
         if (arg.indexOf("=") == arg.length() - 1) {
-            throw new IllegalArgumentException(String.format("Error: This argument '%s' "
-                    + "does not contain a value", arg));
+            throw new IllegalArgumentException(String.format("Error: This argument '%s' does not contain a value", arg));
         }
     }
 
