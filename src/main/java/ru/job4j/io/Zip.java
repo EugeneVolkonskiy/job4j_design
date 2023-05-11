@@ -3,18 +3,16 @@ package ru.job4j.io;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
-    public void packFiles(List<File> sources, File target) {
+    public void packFiles(List<Path> sources, File target) {
         try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
-            for (File file : sources) {
-                zip.putNextEntry(new ZipEntry(file.getPath()));
-                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(file))) {
+            for (Path path : sources) {
+                zip.putNextEntry(new ZipEntry(path.toString()));
+                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(path.toFile()))) {
                     zip.write(out.readAllBytes());
                 }
             }
@@ -34,34 +32,30 @@ public class Zip {
         }
     }
 
-    public static void validate(String[] args) {
+    public static void validate(String directory, String exclude, String output) {
+        if (!Files.isDirectory(Path.of(directory))) {
+            throw new IllegalArgumentException(String.format("Directory %s doesn't exist", directory));
+        }
+        if (!(exclude.startsWith(".") && exclude.length() > 1)) {
+            throw new IllegalArgumentException(String.format("File %s extension must start with '.', and it's length must be more than 1", exclude));
+        }
+        if (!(output.endsWith(".zip"))) {
+            throw new IllegalArgumentException(String.format("File %s extension must be '.zip'", output));
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
         if (args.length != 3) {
             throw new IllegalArgumentException("The number of parameters must be 3");
         }
         ArgsName argsName = ArgsName.of(args);
-        if (!Files.isDirectory(Path.of(argsName.get("d")))) {
-            throw new IllegalArgumentException(String.format("Directory doesn't exist %s", argsName.get("d")));
-        }
-    }
-
-    public static List<File> getSource(String[] args) throws IOException {
-        ArgsName argsName = ArgsName.of(args);
-        Path start = Paths.get(argsName.get("d"));
-        String extension = argsName.get("e");
-        List<Path> search = Search.search(start, (p -> !p.toFile().getName().endsWith(extension)));
-        return search.stream().map(Path::toFile).collect(Collectors.toList());
-    }
-
-    public static File getTarget(String[] args) {
-        ArgsName argsName = ArgsName.of(args);
-        String path = argsName.get("o");
-        return new File(path);
-    }
-
-    public static void main(String[] args) throws IOException {
-        validate(args);
+        String directory = argsName.get("d");
+        String exclude = argsName.get("e");
+        String output = argsName.get("o");
+        validate(directory, exclude, output);
+        List<Path> sourceList = Search.search(Path.of(directory), (p -> !p.toFile().getName().endsWith(exclude)));
         Zip zip = new Zip();
-        zip.packFiles(getSource(args), getTarget(args));
+        zip.packFiles(sourceList, new File(output));
         zip.packSingleFile(
                 new File("./pom.xml"),
                 new File("./pom.zip")
