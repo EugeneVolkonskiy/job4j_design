@@ -28,15 +28,15 @@ public class ConsoleChat {
         while (run) {
             String inputPhrase = scanner.next();
             log.add(inputPhrase);
-            if (inputPhrase.equals(OUT)) {
+            if (OUT.equals(inputPhrase)) {
                 saveLog(log);
                 break;
             }
-            if (inputPhrase.equals(STOP)) {
-                while (!inputPhrase.equals(CONTINUE)) {
+            if (STOP.equals(inputPhrase)) {
+                while (!CONTINUE.equals(inputPhrase)) {
                     inputPhrase = scanner.next();
                     log.add(inputPhrase);
-                    if (inputPhrase.equals(OUT)) {
+                    if (OUT.equals(inputPhrase)) {
                         run = false;
                         saveLog(log);
                         break;
