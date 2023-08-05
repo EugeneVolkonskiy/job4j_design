@@ -50,14 +50,14 @@ public class Menu {
                 String text = scanner.nextLine();
                 System.out.println(COUNT);
                 String count = scanner.nextLine();
-                if (UserGenerator.getUsers().isEmpty()) {
+                if (userGenerator.getUsers().isEmpty()) {
                     userGenerator.generate();
                 }
                 for (int i = 0; i < Integer.parseInt(count); i++) {
                     createPost(commentGenerator, postStore, text);
                 }
             } else if (SHOW_ALL_POSTS == userChoice) {
-                System.out.println(PostStore.getPosts());
+                System.out.println(postStore.getPosts());
             } else if (DELETE_POST == userChoice) {
                 System.out.println(DELETE_ALL_POSTS);
                 postStore.removeAll();
@@ -70,6 +70,6 @@ public class Menu {
 
     private static void createPost(CommentGenerator commentGenerator, PostStore postStore, String text) {
         commentGenerator.generate();
-        postStore.add(new Post(text, CommentGenerator.getComments()));
+        postStore.add(new Post(text, commentGenerator.getComments()));
     }
 }
