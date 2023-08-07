@@ -20,7 +20,7 @@ public class DirFileCache extends AbstractCache<String, String> {
         try {
             value = Files.readString(path);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Указанный файл не существует: " + e.getMessage() + System.lineSeparator());
         }
         return value;
     }
