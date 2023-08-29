@@ -12,7 +12,7 @@ public class MaxMin {
         return findByPredicate(value, comparator, (compare) -> compare < 0);
     }
 
-    public <T> T findByPredicate(List<T> value, Comparator<T> comparator, Predicate<Integer> predicate) {
+    private  <T> T findByPredicate(List<T> value, Comparator<T> comparator, Predicate<Integer> predicate) {
         Iterator<? extends T> i = value.iterator();
         T result = i.next();
         while (i.hasNext()) {
