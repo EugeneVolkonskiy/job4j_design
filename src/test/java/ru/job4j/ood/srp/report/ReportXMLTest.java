@@ -16,18 +16,26 @@ class ReportXMLTest {
     public void whenReportXMLGenerated() {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
-        Employee worker = new Employee("Ivan", now, now, 100);
+        Employee worker1 = new Employee("Ivan", now, now, 100);
+        Employee worker2 = new Employee("Oleg", now, now, 300);
         DateTimeParser<Calendar> parser = new ReportDateTimeParser();
-        store.add(worker);
+        store.add(worker1);
+        store.add(worker2);
         Report reportXML = new ReportXML(store);
         StringBuilder expect = new StringBuilder()
                 .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n")
                 .append("<employees>\n")
                 .append("    <employee>\n")
-                .append("        <name>").append(worker.getName()).append("</name>\n")
-                .append("        <hired>").append(parser.parse(worker.getHired())).append("</hired>\n")
-                .append("        <fired>").append(parser.parse(worker.getFired())).append("</fired>\n")
-                .append("        <salary>").append(worker.getSalary()).append("</salary>\n")
+                .append("        <name>").append(worker1.getName()).append("</name>\n")
+                .append("        <hired>").append(parser.parse(worker1.getHired())).append("</hired>\n")
+                .append("        <fired>").append(parser.parse(worker1.getFired())).append("</fired>\n")
+                .append("        <salary>").append(worker1.getSalary()).append("</salary>\n")
+                .append("    </employee>\n")
+                .append("    <employee>\n")
+                .append("        <name>").append(worker2.getName()).append("</name>\n")
+                .append("        <hired>").append(parser.parse(worker2.getHired())).append("</hired>\n")
+                .append("        <fired>").append(parser.parse(worker2.getFired())).append("</fired>\n")
+                .append("        <salary>").append(worker2.getSalary()).append("</salary>\n")
                 .append("    </employee>\n")
                 .append("</employees>\n");
         assertThat(reportXML.generate(em -> true)).isEqualTo(expect.toString());

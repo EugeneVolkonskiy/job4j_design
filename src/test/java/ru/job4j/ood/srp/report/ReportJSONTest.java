@@ -16,17 +16,25 @@ class ReportJSONTest {
     public void whenReportJSONGenerated() {
         MemStore store = new MemStore();
         Calendar now = Calendar.getInstance();
-        Employee worker = new Employee("Ivan", now, now, 100);
+        Employee worker1 = new Employee("Ivan", now, now, 100);
+        Employee worker2 = new Employee("Oleg", now, now, 300);
         DateTimeParser<Calendar> parser = new ReportDateTimeParser();
-        store.add(worker);
+        store.add(worker1);
+        store.add(worker2);
         Report reportJSON = new ReportJSON(store);
         StringBuilder expect = new StringBuilder()
                 .append("[\n")
                 .append("  {\n")
-                .append("    \"name\": \"").append(worker.getName()).append("\",\n")
-                .append("    \"hired\": \"").append(parser.parse(worker.getHired())).append("\",\n")
-                .append("    \"fired\": \"").append(parser.parse(worker.getFired())).append("\",\n")
-                .append("    \"salary\": ").append(worker.getSalary()).append("\n")
+                .append("    \"name\": \"").append(worker1.getName()).append("\",\n")
+                .append("    \"hired\": \"").append(parser.parse(worker1.getHired())).append("\",\n")
+                .append("    \"fired\": \"").append(parser.parse(worker1.getFired())).append("\",\n")
+                .append("    \"salary\": ").append(worker1.getSalary()).append("\n")
+                .append("  },\n")
+                .append("  {\n")
+                .append("    \"name\": \"").append(worker2.getName()).append("\",\n")
+                .append("    \"hired\": \"").append(parser.parse(worker2.getHired())).append("\",\n")
+                .append("    \"fired\": \"").append(parser.parse(worker2.getFired())).append("\",\n")
+                .append("    \"salary\": ").append(worker2.getSalary()).append("\n")
                 .append("  }\n")
                 .append("]");
         assertThat(reportJSON.generate(em -> true)).isEqualTo(expect.toString());
