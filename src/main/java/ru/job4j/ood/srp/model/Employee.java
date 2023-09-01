@@ -1,11 +1,20 @@
 package ru.job4j.ood.srp.model;
 
+import ru.job4j.ood.srp.formatter.DateAdapter;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Calendar;
 import java.util.Objects;
 
+@XmlRootElement(name = "employee")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Employee {
+
     private String name;
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Calendar hired;
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Calendar fired;
     private double salary;
 
@@ -14,6 +23,10 @@ public class Employee {
         this.hired = hired;
         this.fired = fired;
         this.salary = salary;
+    }
+
+    public Employee() {
+
     }
 
     public String getName() {
