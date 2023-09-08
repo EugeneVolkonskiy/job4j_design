@@ -1,6 +1,8 @@
 package ru.job4j.ood.lsp.store;
 
 import ru.job4j.ood.lsp.food.Food;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class ControlQuality {
@@ -11,11 +13,14 @@ public class ControlQuality {
         this.storeList = storeList;
     }
 
-    public void sort(Food food) {
+    public void sort(List<Food> foodList, LocalDate localDate) {
+        ExpiryPercentCalculator expiryPercentCalculator = new ExpiryPercentCalculator(foodList, localDate);
+        foodList = expiryPercentCalculator.updateExpiryPercent();
         for (Store store : storeList) {
-            if (store.checkExpiry(food)) {
-                store.add(food);
-                System.out.println(food.getName() + " stored in " + store.getClass());
+            for (Food food : foodList) {
+                if (store.checkExpiry(food)) {
+                    store.add(food);
+                }
             }
         }
     }

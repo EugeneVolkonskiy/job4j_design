@@ -2,8 +2,6 @@ package ru.job4j.ood.lsp.store;
 
 import ru.job4j.ood.lsp.food.Food;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -11,6 +9,10 @@ import java.util.function.Predicate;
 abstract class AbstractStore implements Store {
 
     private final List<Food> list = new ArrayList<>();
+
+    protected static final double WAREHOUSE_PERCENT = 25;
+    protected static final double SHOP_PERCENT = 75;
+    protected static final double TRASH_PERCENT = 100;
 
     @Override
     public void add(Food food) {
@@ -27,14 +29,8 @@ abstract class AbstractStore implements Store {
         list.forEach(System.out::println);
     }
 
-    public double expiryPercent(Food food) {
-        long periodCreateExpired = ChronoUnit.DAYS.between(food.getCreateDate(), food.getExpiryDate());
-        long periodCreateNow = ChronoUnit.DAYS.between(food.getCreateDate(), LocalDateTime.now());
-        return ((double) periodCreateNow / periodCreateExpired) * 100;
-    }
-
     public boolean isExpired(Food food, Predicate<Double> predicate) {
-        return predicate.test(expiryPercent(food));
+        return predicate.test(food.getExpiryPercent());
     }
 
     @Override

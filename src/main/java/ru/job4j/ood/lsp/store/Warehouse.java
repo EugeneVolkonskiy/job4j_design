@@ -6,7 +6,7 @@ public class Warehouse extends AbstractStore {
 
     @Override
     public boolean checkExpiry(Food food) {
-        return isExpired(food, ex -> ex <= 25);
+        return isExpired(food, ex -> ex <= WAREHOUSE_PERCENT);
     }
 
     @Override
@@ -14,7 +14,7 @@ public class Warehouse extends AbstractStore {
         if (checkExpiry(food)) {
             getList().add(food);
         } else {
-            System.out.printf("Storing in Warehouse failed, wrong expiry percent: %f%n", expiryPercent(food));
+            System.out.printf("Storing in Warehouse failed, wrong expiry percent: %f%n", food.getExpiryPercent());
         }
     }
 }

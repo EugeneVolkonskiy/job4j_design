@@ -20,12 +20,17 @@ class ControlQualityTest {
                 new Warehouse(),
                 new Shop(),
                 new Trash());
-        Food bread = new Bread("Bread", LocalDate.of(2023, 9, 12),
-                LocalDate.of(2023, 9, 6), 40, 10);
+        List<Food> foodList = List.of(
+                new Bread("Bread", LocalDate.of(2023, 9, 12),
+                        LocalDate.of(2023, 9, 7), 40, 10),
+                new Chocolate("Chocolate", LocalDate.of(2023, 9, 10),
+                        LocalDate.of(2023, 8, 1), 100, 20),
+                new Apple("Apple", LocalDate.of(2023, 9, 6),
+                        LocalDate.of(2023, 9, 1), 90, 30));
         ControlQuality controlQuality = new ControlQuality(storeList);
-        controlQuality.sort(bread);
+        controlQuality.sort(foodList, LocalDate.now());
         Food result = storeList.get(0).getList().get(0);
-        assertThat(result).isEqualTo(bread);
+        assertThat(result).isEqualTo(foodList.get(0));
     }
 
     @Test
@@ -34,12 +39,17 @@ class ControlQualityTest {
                 new Warehouse(),
                 new Shop(),
                 new Trash());
-        Food chocolate = new Chocolate("Chocolate", LocalDate.of(2023, 9, 10),
-                LocalDate.of(2023, 8, 1), 100, 20);
+        List<Food> foodList = List.of(
+                new Bread("Bread", LocalDate.of(2023, 9, 12),
+                        LocalDate.of(2023, 9, 7), 40, 10),
+                new Chocolate("Chocolate", LocalDate.of(2023, 9, 10),
+                        LocalDate.of(2023, 8, 1), 100, 20),
+                new Apple("Apple", LocalDate.of(2023, 9, 6),
+                        LocalDate.of(2023, 9, 1), 90, 30));
         ControlQuality controlQuality = new ControlQuality(storeList);
-        controlQuality.sort(chocolate);
+        controlQuality.sort(foodList, LocalDate.now());
         Food result = storeList.get(1).getList().get(0);
-        assertThat(result).isEqualTo(chocolate);
+        assertThat(result).isEqualTo(foodList.get(1));
     }
 
     @Test
@@ -48,11 +58,16 @@ class ControlQualityTest {
                 new Warehouse(),
                 new Shop(),
                 new Trash());
-        Food apple = new Apple("Apple", LocalDate.of(2023, 9, 6),
-                LocalDate.of(2023, 9, 1), 90, 30);
+        List<Food> foodList = List.of(
+                new Bread("Bread", LocalDate.of(2023, 9, 12),
+                        LocalDate.of(2023, 9, 7), 40, 10),
+                new Chocolate("Chocolate", LocalDate.of(2023, 9, 10),
+                        LocalDate.of(2023, 8, 1), 100, 20),
+                new Apple("Apple", LocalDate.of(2023, 9, 6),
+                        LocalDate.of(2023, 9, 1), 90, 30));
         ControlQuality controlQuality = new ControlQuality(storeList);
-        controlQuality.sort(apple);
+        controlQuality.sort(foodList, LocalDate.now());
         Food result = storeList.get(2).getList().get(0);
-        assertThat(result).isEqualTo(apple);
+        assertThat(result).isEqualTo(foodList.get(2));
     }
 }
