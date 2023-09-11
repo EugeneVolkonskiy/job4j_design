@@ -1,6 +1,6 @@
-package ru.job4j.ood.lsp.store;
+package ru.job4j.ood.lsp.foodstore.store;
 
-import ru.job4j.ood.lsp.food.Food;
+import ru.job4j.ood.lsp.foodstore.food.Food;
 
 import java.time.LocalDate;
 import java.util.List;

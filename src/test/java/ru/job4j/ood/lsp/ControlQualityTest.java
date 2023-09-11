@@ -1,11 +1,11 @@
 package ru.job4j.ood.lsp;
 
 import org.junit.jupiter.api.Test;
-import ru.job4j.ood.lsp.food.Apple;
-import ru.job4j.ood.lsp.food.Bread;
-import ru.job4j.ood.lsp.food.Chocolate;
-import ru.job4j.ood.lsp.food.Food;
-import ru.job4j.ood.lsp.store.*;
+import ru.job4j.ood.lsp.foodstore.food.Apple;
+import ru.job4j.ood.lsp.foodstore.food.Bread;
+import ru.job4j.ood.lsp.foodstore.food.Chocolate;
+import ru.job4j.ood.lsp.foodstore.food.Food;
+import ru.job4j.ood.lsp.foodstore.store.*;
 
 import java.time.LocalDate;
 import java.util.List;
