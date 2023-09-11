@@ -28,7 +28,7 @@ class ControlQualityTest {
                 new Apple("Apple", LocalDate.of(2023, 9, 6),
                         LocalDate.of(2023, 9, 1), 90, 30));
         ControlQuality controlQuality = new ControlQuality(storeList);
-        controlQuality.sort(foodList, LocalDate.now());
+        controlQuality.sort(foodList, LocalDate.of(2023, 9, 8));
         Food result = storeList.get(0).getList().get(0);
         assertThat(result).isEqualTo(foodList.get(0));
     }
@@ -47,7 +47,7 @@ class ControlQualityTest {
                 new Apple("Apple", LocalDate.of(2023, 9, 6),
                         LocalDate.of(2023, 9, 1), 90, 30));
         ControlQuality controlQuality = new ControlQuality(storeList);
-        controlQuality.sort(foodList, LocalDate.now());
+        controlQuality.sort(foodList, LocalDate.of(2023, 9, 8));
         Food result = storeList.get(1).getList().get(0);
         assertThat(result).isEqualTo(foodList.get(1));
     }
@@ -66,7 +66,7 @@ class ControlQualityTest {
                 new Apple("Apple", LocalDate.of(2023, 9, 6),
                         LocalDate.of(2023, 9, 1), 90, 30));
         ControlQuality controlQuality = new ControlQuality(storeList);
-        controlQuality.sort(foodList, LocalDate.now());
+        controlQuality.sort(foodList, LocalDate.of(2023, 9, 8));
         Food result = storeList.get(2).getList().get(0);
         assertThat(result).isEqualTo(foodList.get(2));
     }
