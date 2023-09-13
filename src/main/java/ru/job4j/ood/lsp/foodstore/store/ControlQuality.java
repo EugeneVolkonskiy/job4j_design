@@ -14,13 +14,9 @@ public class ControlQuality {
     }
 
     public void sort(List<Food> foodList, LocalDate localDate) {
-        ExpiryPercentCalculator expiryPercentCalculator = new ExpiryPercentCalculator(foodList, localDate);
-        foodList = expiryPercentCalculator.updateExpiryPercent();
         for (Store store : storeList) {
             for (Food food : foodList) {
-                if (store.checkExpiry(food)) {
-                    store.add(food);
-                }
+                store.add(food, localDate);
             }
         }
     }
