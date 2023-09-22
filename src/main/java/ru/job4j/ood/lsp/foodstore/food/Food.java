@@ -9,6 +9,7 @@ public abstract class Food {
     private LocalDate createDate;
     private double price;
     private double discount;
+    private final double primordialPrice;
     private double expiryPercent;
 
     public Food(String name, LocalDate expiryDate, LocalDate createDate, double price, double discount) {
@@ -17,6 +18,11 @@ public abstract class Food {
         this.createDate = createDate;
         this.price = price;
         this.discount = discount;
+        this.primordialPrice = price;
+    }
+
+    public double getPrimordialPrice() {
+        return primordialPrice;
     }
 
     public String getName() {

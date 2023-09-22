@@ -7,17 +7,24 @@ import java.util.List;
 
 public class ControlQuality {
 
-    private final List<Store> storeList;
+    private final StoreService storeService;
 
-    public ControlQuality(List<Store> storeList) {
-        this.storeList = storeList;
+    public ControlQuality(StoreService storeService) {
+        this.storeService = storeService;
     }
 
     public void sort(List<Food> foodList, LocalDate localDate) {
-        for (Store store : storeList) {
+        for (Store store : storeService.getStoreList()) {
             for (Food food : foodList) {
                 store.add(food, localDate);
             }
         }
     }
+
+    public void resort(LocalDate localDate) {
+        List<Food> storeFood = storeService.getStoreFood();
+        storeService.clearStore();
+        sort(storeFood, localDate);
+    }
 }
+
