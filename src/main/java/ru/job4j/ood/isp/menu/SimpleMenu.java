@@ -33,11 +33,6 @@ public class SimpleMenu implements Menu {
         return Optional.ofNullable(menuItemInfo);
     }
 
-    @Override
-    public Iterator<MenuItemInfo> iterator() {
-        return new MenuItemInfoIterator();
-    }
-
     private Optional<ItemInfo> findItem(String name) {
         DFSIterator dfsIterator = new DFSIterator();
         ItemInfo result = null;
@@ -116,41 +111,32 @@ public class SimpleMenu implements Menu {
         }
     }
 
-    private class MenuItemInfoIterator implements Iterator<MenuItemInfo> {
-
-        Deque<MenuItem> stack = new LinkedList<>();
-
-        Deque<String> numbers = new LinkedList<>();
-
-        MenuItemInfoIterator() {
-            int number = 1;
-            for (MenuItem item : rootElements) {
-                stack.addLast(item);
-                numbers.addLast(String.valueOf(number++).concat("."));
+    @Override
+    public Iterator<MenuItemInfo> iterator() {
+        DFSIterator dfsIterator = new DFSIterator();
+        return new Iterator<>() {
+            @Override
+            public boolean hasNext() {
+                return dfsIterator.hasNext();
             }
-        }
 
-        @Override
-        public boolean hasNext() {
-            return !stack.isEmpty();
-        }
-
-        @Override
-        public MenuItemInfo next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
+            @Override
+            public MenuItemInfo next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                MenuItem current = dfsIterator.stack.removeFirst();
+                String lastNumber = dfsIterator.numbers.removeFirst();
+                String space = "    ";
+                List<MenuItem> children = current.getChildren();
+                int currentNumber = children.size();
+                for (var i = children.listIterator(children.size()); i.hasPrevious();) {
+                    dfsIterator.stack.addFirst(i.previous());
+                    dfsIterator.numbers.addFirst(space.concat(lastNumber.concat(String.valueOf(currentNumber--)).concat(".")));
+                }
+                return new MenuItemInfo(current, lastNumber);
             }
-            MenuItem current = stack.removeFirst();
-            String lastNumber = numbers.removeFirst();
-            String space = "    ";
-            List<MenuItem> children = current.getChildren();
-            int currentNumber = children.size();
-            for (var i = children.listIterator(children.size()); i.hasPrevious();) {
-                stack.addFirst(i.previous());
-                numbers.addFirst(space.concat(lastNumber.concat(String.valueOf(currentNumber--)).concat(".")));
-            }
-            return new MenuItemInfo(current, lastNumber);
-        }
+        };
     }
 
     private class ItemInfo {
